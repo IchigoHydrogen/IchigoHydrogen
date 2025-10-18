@@ -21,15 +21,33 @@ jobs:
         with:
           node-version: "20"
 
+      # 追加: 必要な依存関係をインストール
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 \
+            libnspr4 \
+            libatk1.0-0 \
+            libatk-bridge2.0-0 \
+            libcups2 \
+            libdrm2 \
+            libxkbcommon0 \
+            libxcomposite1 \
+            libxdamage1 \
+            libxfixes3 \
+            libxrandr2 \
+            libgbm1 \
+            libasound2
+
+      # 修正: Chrome のバージョンを最新に更新
       - name: Install Puppeteer browser
-        run: npx puppeteer browsers install chrome@126.0.6478.63
+        run: npx puppeteer browsers install chrome@131.0.6778.85
 
       - name: Use Kaggle Badges Action
         uses: spider-man-tm/kaggle-badges@v1.3.0
         with:
           user_name: ichigoe
-        env:
-          PUPPETEER_ARGS: "--no-sandbox --disable-setuid-sandbox"
 
       - name: Commit and Push SVG files
         run: |
